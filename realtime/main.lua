@@ -1,9 +1,10 @@
 local Lang = LoadResource("locales").Fetch()
 
---don't set
+--don't change
 local syncTime = 0
 local randomWeather = 0
 local weatherSeason = 0
+--weather at server startup
 local weatherName = "Clear"
 
 local seasonsNames = {
