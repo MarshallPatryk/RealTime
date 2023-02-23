@@ -17,38 +17,33 @@ local seasonsNames = {
     [3] = Lang.fall,
     [4] = Lang.spring
 }
-
+local firstRunTime = true
+local firstRunWeather = true
 registerForEvent("init", function()
     print("Real Time script made by SamWieszKto (forked from Kruksii)")
+    firstRun = true
     syncWeatherAndTime()
-    rndmWeather()
 end)
 
 registerForEvent("update", function(delta)
     syncTime = syncTime + delta
     randomWeatherTime = randomWeatherTime + delta
-    if FreezeTime == false then
-        if syncTime > Config.timeBeforeSync then
-            syncTime = 0
-            syncWeatherAndTime()
-        end
+    if syncTime > Config.timeBeforeSync then
+        syncTime = 0
+        syncWeatherAndTime()
     end
-    if FreezeWeather == false then
-        if randomWeatherTime > Config.timeBeforeRndmWeather then
-            randomWeatherTime = 0
-            rndmWeather()
-        end
+    if randomWeatherTime > Config.timeBeforeRndmWeather then
+        randomWeatherTime = 0
+        rndmWeather()
     end
 end)
 
 function syncWeatherAndTime()
+    -- tutaj ograniczac przy starcie zmiany
     time = os.date('*t')
-    timeHour = time.hour
-    timeMinute = time.min
     dateDay = time.day
     dateMonth = time.month
     gameYear = Config.startGameYear + (time.year - Config.startRealYear)
-
     if (dateMonth == 12 and dateDay >= 21) or dateMonth == 1 or dateMonth == 2 or (dateMonth == 3 and dateDay < 21) then
         -- winter
         Season = 2
@@ -62,40 +57,59 @@ function syncWeatherAndTime()
         -- fall
         Season = 3
     end
-
-    world.hour = timeHour
-    world.minute = timeMinute
-    world.day = dateDay
-    world.month = dateMonth
+    if firstRunWeather then
+        world.weather = weatherName
+    end
+    if firstRunTime == true then
+        world.hour = HourOnStartServer
+        world.minute = MinutesOnStartServer
+    end
+    if FreezeTime then
+        world.hour = HourOnStartServer
+        world.minute = MinutesOnStartServer
+        world.day = time.day
+        world.month = time.month
+        world.year = gameYear
+    else
+        world.hour = time.hour
+        world.minute = time.min
+        world.day = dateDay
+        world.month = dateMonth
+    end
+    firstRunTime = false
+    firstRunWeather = false
     world.year = gameYear
     world.season = Season
-    world.weather = weatherName
     world:RpcSet()
-    print(string.format(Lang.syncMessage, timeHour, timeMinute, dateDay, dateMonth, world.year, seasonsNames[Season]))
+    print(string.format(Lang.syncMessage, world.hour, world.minute, dateDay, dateMonth, world.year,
+        seasonsNames[world.season], world.weather))
 end
 
 function rndmWeather()
-    if world.season == 2 then
-        -- winter
-        local weatherRndm = math.random(1, #Config.winterWeather)
-        weatherName = Config.winterWeather[weatherRndm]
-    elseif world.season == 4 then
-        -- spring
-        local weatherRndm = math.random(1, #Config.springWeather)
-        weatherName = Config.springWeather[weatherRndm]
-    elseif world.season == 1 then
-        -- summer
-        local weatherRndm = math.random(1, #Config.summerWeather)
-        weatherName = Config.summerWeather[weatherRndm]
+    if FreezeWeather == false then
+        if world.season == 2 then
+            -- winter
+            local weatherRndm = math.random(1, #Config.winterWeather)
+            weatherName = Config.winterWeather[weatherRndm]
+        elseif world.season == 4 then
+            -- spring
+            local weatherRndm = math.random(1, #Config.springWeather)
+            weatherName = Config.springWeather[weatherRndm]
+        elseif world.season == 1 then
+            -- summer
+            local weatherRndm = math.random(1, #Config.summerWeather)
+            weatherName = Config.summerWeather[weatherRndm]
+        else
+            -- fall
+            local weatherRndm = math.random(1, #Config.fallWeather)
+            weatherName = Config.fallWeather[weatherRndm]
+        end
+        world.weather = weatherName
+        print(string.format(Lang.weatherChangeMessage, weatherName))
     else
-        -- fall
-        local weatherRndm = math.random(1, #Config.fallWeather)
-        weatherName = Config.fallWeather[weatherRndm]
+        print(string.format(Lang.weatherNotChangeMessage, world.weather))
     end
-
-    world.weather = weatherName
     world:RpcSet()
-    print(string.format(Lang.weatherChangeMessage, weatherName))
 end
 
 -- Exports
@@ -112,17 +126,21 @@ end)
 
 Exports("SetWorldData", function(data)
     if type(data) == "table" then
-        local changed = false
+        -- chaning time or weather cause freezing (its RP module)
+        -- changing day, month or season is in this module not possible (RP)
+        if data.hour or data.minute then
+            Exports.realtime.FreezeTime(state)
+        end
+        if data.weather then
+            Exports.realtime.FreezeWeather(state)
+        end
         for i, v in pairs(data) do
-            if i == (hour or minute or second or day or month or year or season or weather) then
-                changed = true
+            if i == (hour or minute or weather) then
                 world[i] = v
             end
         end
-        if changed == true then
-            world:RpcSet()
-            print(Lang.setWorldSettings)
-        end
+        world:RpcSet()
+        print(Lang.setWorldSettings)
     end
 end)
 
@@ -163,8 +181,15 @@ Exports("FreezeWeather", function(state)
         end
     end
 end)
-
-Exports("FreezeBoth", function(state)
+Exports("SetFreezeBoth", function(state)
     Exports.realtime.FreezeTime(state)
     Exports.realtime.FreezeWeather(state)
+end)
+Exports("FreezeBoth", function()
+    Exports.realtime.FreezeTime(true)
+    Exports.realtime.FreezeWeather(true)
+end)
+Exports("UnFreezeBoth", function()
+    Exports.realtime.FreezeTime(false)
+    Exports.realtime.FreezeWeather(false)
 end)

@@ -8,4 +8,4 @@ Real Time, Season and Weather module for [ministry-of-mods's](https://github.com
 }
 ```
 ## 2.Paste realtime folder to modules
-## 3.If you want change years settings, you can do it in config.lua in realtime folder
+## 3.If you want change settings, you can do it in config.lua in realtime folder

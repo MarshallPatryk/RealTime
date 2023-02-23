@@ -4,7 +4,7 @@ Config.timeBeforeSync = 30 -- Interval between sync (sec)
 Config.timeBeforeRndmWeather = 1200 -- Interval between random weather (sec)
 Config.startGameYear = 1980 -- year in the game from which years will be counted ex. 1980
 Config.startRealYear = 2023 -- the actual year the accrual of years started ex. 2023=1980
---to freezing
+-- to freezing
 Config.FreezeTime = false
 Config.FreezeWeather = false
 Config.WeatherOnStartServer = "Clear"
