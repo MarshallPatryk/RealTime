@@ -11,7 +11,7 @@ Real Time, Season and Weather module for [ministry-of-mods's](https://github.com
 ## 3.If you want change settings, you can do it in config.lua in realtime folder
 ## What can you do:
 ```bash
-1.Have realtime (day,month,hour,minute)
+1.Have realtime (day,month,hour,minute,season)
 2.Have a RP year (ex. real 2023=1980, 2024=1981)
 3.Freeze time and/or weather
 4.Set in your Mods:
