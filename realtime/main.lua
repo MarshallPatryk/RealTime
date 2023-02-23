@@ -115,10 +115,12 @@ end
 -- Exports
 
 Exports("changeRandomWeather", function()
+    randomWeatherTime = 0
     rndmWeather()
 end)
 
 Exports("changeWeather", function(weatherName)
+    randomWeatherTime = 0
     world.weather = weatherName
     world:RpcSet()
     print(string.format(Lang.weatherChangeMessage, weatherName))
