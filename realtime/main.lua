@@ -1,17 +1,17 @@
 local Lang = LoadResource("locales").Fetch()
 
---don't change
+-- don't change
 local syncTime = 0
 local randomWeather = 0
 local weatherSeason = 0
---weather at server startup
+-- weather at server startup
 local weatherName = "Clear"
 
 local seasonsNames = {
     [1] = Lang.summer,
     [2] = Lang.winter,
     [3] = Lang.fall,
-    [4] = Lang.spring,
+    [4] = Lang.spring
 }
 
 registerForEvent("init", function()
@@ -43,16 +43,13 @@ function syncWeatherAndTime()
     dateMonth = time.month
     gameYear = Config.startGameYear + (time.year - Config.startRealYear)
 
-    if (dateMonth == 12 and dateDay >= 21) or dateMonth == 1 or dateMonth == 2 or
-        (dateMonth == 3 and dateDay < 21) then
+    if (dateMonth == 12 and dateDay >= 21) or dateMonth == 1 or dateMonth == 2 or (dateMonth == 3 and dateDay < 21) then
         -- winter
         weatherSeason = 2
-    elseif (dateMonth == 3 and dateDay >= 21) or dateMonth == 4 or dateMonth ==
-        5 or (dateMonth == 6 and dateDay < 21) then
+    elseif (dateMonth == 3 and dateDay >= 21) or dateMonth == 4 or dateMonth == 5 or (dateMonth == 6 and dateDay < 21) then
         -- spring
         weatherSeason = 4
-    elseif (dateMonth == 6 and dateDay >= 21) or dateMonth == 7 or dateMonth ==
-        8 or (dateMonth == 9 and dateDay < 23) then
+    elseif (dateMonth == 6 and dateDay >= 21) or dateMonth == 7 or dateMonth == 8 or (dateMonth == 9 and dateDay < 23) then
         -- summer
         weatherSeason = 1
     else
@@ -64,11 +61,12 @@ function syncWeatherAndTime()
     world.minute = timeMinute
     world.day = dateDay
     world.month = dateMonth
-	world.year = gameYear
+    world.year = gameYear
     world.season = weatherSeason
     world.weather = weatherName
     world:RpcSet()
-    print(string.format(Lang.syncMessage, timeHour, timeMinute, dateDay, dateMonth, world.year, seasonsNames[weatherSeason]))
+    print(string.format(Lang.syncMessage, timeHour, timeMinute, dateDay, dateMonth, world.year,
+        seasonsNames[weatherSeason]))
 end
 
 function rndmWeather()

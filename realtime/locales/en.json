@@ -1,8 +1,8 @@
 {
-    "syncMessage": "syncTime: %iH %im - %iD %iM %i - Season: %s",
-    "weatherChangeMessage": "Changing weather for: %s",
-    "summer": "Summer",
-    "winter": "Winter",
-    "spring": "Spring",
-    "fall": "Fall/Autumn",
+  "syncMessage": "syncTime: %iH %im - %iD %iM %i - Season: %s",
+  "weatherChangeMessage": "Changing weather for: %s",
+  "summer": "Summer",
+  "winter": "Winter",
+  "spring": "Spring",
+  "fall": "Fall/Autumn"
 }
