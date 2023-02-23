@@ -4,5 +4,10 @@
   "summer": "Summer",
   "winter": "Winter",
   "spring": "Spring",
-  "fall": "Fall/Autumn"
+  "fall": "Fall/Autumn",
+  "setWorldSettings": "Data of world was changed",
+  "FreezeTimeON": "Freeze Time is ON now",
+  "FreezeTimeOFF": "Freeze Time is OFF now",
+  "FreezeWeatherON": "Freeze Weather is ON now",
+  "FreezeWeatherOFF": "Freeze Weather is OFF now"
 }
