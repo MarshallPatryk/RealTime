@@ -1,6 +1,8 @@
 # RealTime, Season and Weather
 Real Time, Season and Weather module for [ministry-of-mods's](https://github.com/meta-hub/ministry-of-mods) Mod for Hogwarp (Hogwart Legacy Multiplayer)
 
+![image of console](https://i.imgur.com/CCEg9q7.png)
+
 ## 1.Add to resources.json in ministry-of-mods folder
 ```bash
 {
