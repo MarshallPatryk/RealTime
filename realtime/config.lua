@@ -1,7 +1,7 @@
 Config = {}
 
-Config.timeBeforeSync = 30 -- Interval between sync (sec)
-Config.timeBeforeRndmWeather = 1200 -- Interval between random weather (sec)
+Config.timeBeforeSync = 30000 -- Interval between sync (msec)
+Config.timeBeforeRndmWeather = 1200000 -- Interval between random weather (msec)
 Config.startGameYear = 1980 -- year in the game from which years will be counted ex. 1980
 Config.startRealYear = 2023 -- the actual year the accrual of years started ex. 2023=1980
 -- to freezing
