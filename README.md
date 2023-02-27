@@ -3,7 +3,7 @@ Real Time, Season and Weather module for [ministry-of-mods's](https://github.com
 
 ![image of console](https://i.imgur.com/CCEg9q7.png)
 
-## 1.Add to resources.json in ministry-of-mods folder
+## 1.Add to resources.json in ministry-of-mods/data folder
 ```bash
 {
     "name": "realtime"
